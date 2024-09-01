@@ -2,6 +2,22 @@
 
 <h3>Calculator</h3>
 
-@code {
+<div class="calculator">
+    <div class="display">
+        @ResultValue
+    </div>
+    <div class="buttons">
+        @for (var i = 0; i < 16; i++)
+        {
+            <button @onclick="OnButtonClick"></button>
+        }
+    </div>
+</div>
 
+@code {
+    private string ResultValue = "test";
+    private void OnButtonClick(MouseEventArgs e)
+    {
+    throw new NotImplementedException();
+    }
 }
