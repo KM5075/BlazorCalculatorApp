@@ -1,4 +1,6 @@
 ﻿@page "/calculator"
+@rendermode InteractiveServer
+@using System.Text.RegularExpressions
 
 <h3>Calculator</h3>
 
@@ -7,17 +9,84 @@
         @ResultValue
     </div>
     <div class="buttons">
-        @for (var i = 0; i < 16; i++)
+        @foreach (var row in Buttons)
         {
-            <button @onclick="OnButtonClick"></button>
+            @foreach (var button in row)
+            {
+                <button @onclick="() => OnButtonClick(button)">@button</button>
+            }
         }
     </div>
 </div>
 
 @code {
-    private string ResultValue = "test";
-    private void OnButtonClick(MouseEventArgs e)
+    private string ResultValue = "";
+    private string Current = "";
+    private string Next = "";
+    private string CurrentOperator = "";
+
+    // ボタンのレイアウト
+    private readonly string[][] Buttons = new[]
     {
-    throw new NotImplementedException();
+        new[] { "7", "8", "9", "/" },
+        new[] { "4", "5", "6", "*" },
+        new[] { "1", "2", "3", "-" },
+        new[] { "0", ".", "=", "+" }
+    };
+
+    private void OnButtonClick(string button)
+    {
+        // クリックされたボタンのチェック
+        if (Regex.IsMatch(button, "[0-9]|[.]"))
+        {
+            AddNumber(button);
+        }
+        else
+        {
+            AddOperator(button);
+        }
+    }
+
+    private void AddNumber(string num)
+    {
+        ResultValue += num;
+    }
+
+    private void AddOperator(string ope)
+    {
+        if (ope.Equals("="))
+        {
+            Next = ResultValue;
+            int currentNum = int.Parse(Current);
+            int nextNum = int.Parse(Next);
+
+            switch (CurrentOperator)
+            {
+                case "+":
+                    ResultValue = (currentNum + nextNum).ToString();
+                    break;
+
+                case "-":
+                    ResultValue = (currentNum - nextNum).ToString();
+                    break;
+
+                case "*":
+                    ResultValue = (currentNum * nextNum).ToString();
+                    break;
+
+                case "/":
+                    ResultValue = (currentNum / nextNum).ToString();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        else
+        {
+            Current = ResultValue;
+            ResultValue = string.Empty;
+            CurrentOperator = ope;
+        }
     }
 }
