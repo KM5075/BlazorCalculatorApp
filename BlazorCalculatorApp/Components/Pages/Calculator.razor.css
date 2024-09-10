@@ -16,6 +16,13 @@
     border: 1px solid #ccc;
     margin-bottom: 10px;
     border-radius: 5px;
+    /* 最小高さを設定して数値がない場合でも高さを維持 */
+    min-height: 70px;
+    line-height: 1.5; /* テキストの縦方向中央揃え */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* テキストを右揃え */
 }
 
 .buttons {
@@ -31,6 +38,10 @@ button {
     border-radius: 5px;
     background-color: #f0f0f0;
     cursor: pointer;
+}
+
+.rightSideButton{
+    background-color : orange;
 }
 
     button:hover {

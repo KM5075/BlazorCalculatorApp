@@ -13,7 +13,12 @@
         {
             @foreach (var button in row)
             {
-                <button @onclick="() => OnButtonClick(button)">@button</button>
+                string btnStyle = string.Empty;
+                if (!Regex.IsMatch(button, "[0-9]|[.=]"))
+                {
+                    btnStyle = "rightSideButton";
+                }
+                <button class="@btnStyle" @onclick="() => OnButtonClick(button)">@button</button>
             }
         }
     </div>
