@@ -5,8 +5,8 @@
 <h3>Calculator</h3>
 
 <div class="calculator">
-    <div class="display">
-        @ResultValue
+    <div class="display" id="test">
+        <input type="text" id="test1" value="@ResultValue"/>
     </div>
     <div class="buttons">
         @foreach (var row in Buttons)
@@ -18,7 +18,7 @@
                 {
                     btnStyle = "rightSideButton";
                 }
-                <button class="@btnStyle" @onclick="() => OnButtonClick(button)">@button</button>
+                <button id="@("Button_" + button)" class="@btnStyle" @onclick="() => OnButtonClick(button)">@button</button>
             }
         }
     </div>
