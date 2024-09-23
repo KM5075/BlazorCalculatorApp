@@ -54,11 +54,14 @@
 
     private void AddNumber(string num)
     {
+        if(ResultValue.Equals("0")){ return; }
         ResultValue += num;
     }
 
     private void AddOperator(string ope)
     {
+        if (ResultValue == string.Empty) { return; }
+
         if (ope.Equals("="))
         {
             Next = ResultValue;
