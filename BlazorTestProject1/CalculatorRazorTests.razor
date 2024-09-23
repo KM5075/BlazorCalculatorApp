@@ -1,8 +1,7 @@
-﻿@attribute [TestClass]
-@inherits BunitTestContext
-
-
-@code {
+﻿@code {
+    /// <summary>
+    /// Test for initial state after button click.
+    /// </summary>
     [TestMethod]
     public void OnButtonClick_InitialState()
     {
@@ -13,6 +12,9 @@
         calc.FindAll("div", false).First(o => o.Id == "test").MarkupMatches(@<div class="display" id="test"></div>);
     }
 
+    /// <summary>
+    /// Test for initial state by value after button click.
+    /// </summary>
     [TestMethod]
     public void OnButtonClick_InitialState_ByValue()
     {
@@ -24,6 +26,9 @@
         Assert.AreEqual("", ele.TextContent);
     }
 
+    /// <summary>
+    /// Test for checking class after button click.
+    /// </summary>
     [TestMethod]
     public void OnButtonClick_CheckClass()
     {
@@ -35,6 +40,9 @@
         Assert.AreEqual("display", ele.ClassName);
     }
 
+    /// <summary>
+    /// Test for counting the number of buttons.
+    /// </summary>
     [TestMethod]
     public void ButtonNum_Count()
     {
@@ -46,6 +54,9 @@
         Assert.AreEqual(16, ele.Count);
     }
 
+    /// <summary>
+    /// Test for checking the id of a button.
+    /// </summary>
     [TestMethod]
     public void ButtonNum_Id()
     {
@@ -57,6 +68,11 @@
         Assert.AreEqual("0", ele.TextContent);
     }
 
+    /// <summary>
+    /// Test for clicking a number button and checking the result.
+    /// </summary>
+    /// <param name="targetButton">The target button number.</param>
+    /// <param name="expectedNum">The expected number.</param>
     [TestMethod]
     [DataRow(0, 0)]
     [DataRow(1, 1)]
@@ -80,9 +96,13 @@
         // Assert
         var element = calc.FindAll("div", true).First(o => o.Id == "test");
         Assert.AreEqual(expectedNum.ToString(), element.TextContent);
-
     }
 
+    /// <summary>
+    /// Test for clicking a number button after clicking the first button and checking the result.
+    /// </summary>
+    /// <param name="targetButton">The target button number.</param>
+    /// <param name="expectedNum">The expected number.</param>
     [TestMethod]
     [DataRow(0, 0)]
     [DataRow(1, 1)]
@@ -99,17 +119,37 @@
         // Arrange
         var calc = Render(@<Calculator />);
         var ele = calc.FindAll("button", true).First(o => o.Id == "Button_" + targetButton.ToString());
-        var iniText = calc.FindAll("input", true).First(o => o.Id == "test1");
+        var iniText = calc.FindAll("div", true).First(o => o.Id == "test");
 
         // Act
-        ele.Click();
-        // calc.InvokeAsync(() => ele.Click());
-        // calc.InvokeAsync(() => ele.Click());
+        calc.FindAll("button", true).First(o => o.Id == "Button_1").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_" + targetButton.ToString()).Click();
 
         // Assert
-        var element = calc.FindAll("input", true).First(o => o.Id == "test1");
-        Assert.AreEqual("11" + expectedNum.ToString(), element.TextContent);
-
+        var element = calc.FindAll("div", true).First(o => o.Id == "test");
+        Assert.AreEqual("1" + expectedNum.ToString(), element.TextContent);
     }
 
+    /// <summary>
+    /// Test for clicking the add operator button and checking the result.
+    /// </summary>
+    [TestMethod]
+    public void AddOperator_Click()
+    {
+        // Arrange
+        var calc = Render(@<Calculator />);
+        var ele = calc.FindAll("button", true).First(o => o.Id == "Button_+");
+
+        // Act
+        calc.FindAll("button", true).First(o => o.Id == "Button_1").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_1").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_+").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_1").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_1").Click();
+        calc.FindAll("button", true).First(o => o.Id == "Button_=").Click();
+
+        // Assert
+        var element = calc.FindAll("div", true).First(o => o.Id == "test");
+        Assert.AreEqual("22", element.TextContent);
+    }
 }
