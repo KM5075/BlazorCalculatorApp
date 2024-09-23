@@ -1,5 +1,3 @@
-using BlazorTestProject1;
-using BlazorCalculatorApp;
 using BlazorCalculatorApp.Components.Pages;
 namespace BlazorTestProject1
 {
