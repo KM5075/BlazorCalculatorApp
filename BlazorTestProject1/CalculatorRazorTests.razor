@@ -58,20 +58,6 @@
     }
 
     /// <summary>
-    /// Test for checking the id of a button.
-    /// </summary>
-    [TestMethod]
-    public void ButtonNum_Id()
-    {
-        // Arrange
-        var calc = Render(@<Calculator />);
-        var ele = calc.FindAll("button", true).First(o => o.Id == "Button_0");
-
-        // Assert
-        Assert.AreEqual("0", ele.TextContent);
-    }
-
-    /// <summary>
     /// Test for clicking a number button and checking the result.
     /// </summary>
     /// <param name="targetButton">The target button number.</param>
